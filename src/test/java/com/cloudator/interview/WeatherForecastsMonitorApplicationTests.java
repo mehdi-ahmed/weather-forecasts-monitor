@@ -1,4 +1,4 @@
-package com.cloudator.interview.weatherforecastsmonitor;
+package com.cloudator.interview;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
