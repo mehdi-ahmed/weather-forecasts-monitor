@@ -1,4 +1,4 @@
-package com.cloudator.interview.service;
+package com.cloudator.interview.servicea;
 
 import com.cloudator.interview.domain.Weather;
 import com.cloudator.interview.util.JsonUtil;

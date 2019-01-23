@@ -2,25 +2,25 @@ package com.cloudator.interview.domain;
 
 public class City {
 
-    private String cityName;
+    private String name;
     private String country;
-    private long cityCode;
+    private long code;
     private float temperatureLimit;
 
-    public City(String cityName, String country, long cityCode, float temperatureLimit) {
+    public City(String name, String country, long code, float temperatureLimit) {
         super();
-        this.cityName = cityName;
+        this.name = name;
         this.country = country;
-        this.cityCode = cityCode;
+        this.code = code;
         this.temperatureLimit = temperatureLimit;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getName() {
+        return name;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCountry() {
@@ -31,12 +31,12 @@ public class City {
         this.country = country;
     }
 
-    public long getCityCode() {
-        return cityCode;
+    public long getCode() {
+        return code;
     }
 
-    public void setCityCode(long cityCode) {
-        this.cityCode = cityCode;
+    public void setCode(long code) {
+        this.code = code;
     }
 
     public float getTemperatureLimit() {
@@ -50,9 +50,9 @@ public class City {
     @Override
     public String toString() {
         return "City{" +
-                "cityName='" + cityName + '\'' +
+                "name='" + name + '\'' +
                 ", country='" + country + '\'' +
-                ", cityCode=" + cityCode +
+                ", code=" + code +
                 ", temperatureLimit=" + temperatureLimit +
                 '}';
     }
