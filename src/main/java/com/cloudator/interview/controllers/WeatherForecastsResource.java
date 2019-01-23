@@ -2,7 +2,7 @@ package com.cloudator.interview.controllers;
 
 import com.cloudator.interview.domain.City;
 import com.cloudator.interview.domain.Weather;
-import com.cloudator.interview.servicea.WeatherForecastsService;
+import com.cloudator.interview.services.WeatherForecastsService;
 import com.cloudator.interview.util.CsvReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
