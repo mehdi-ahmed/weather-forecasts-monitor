@@ -38,3 +38,10 @@ updated no more than one time every 10 minutes.
  Please, mind that Free and Startup accounts have limited data availability. 
  If you do not receive a response from the API, please, wait at least for 10 min and then repeat your request. 
  We also recommend you to store your previous request.
+ 
+ 
+ scheduling
+ The method should have a void return type.
+ The method should not accept any arguments.
+ 
+ 

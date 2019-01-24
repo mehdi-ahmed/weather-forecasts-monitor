@@ -1,13 +1,13 @@
 package com.cloudator.interview.domain;
 
-public class City {
+public class Location {
 
     private String name;
     private String country;
     private long code;
     private float temperatureLimit;
 
-    public City(String name, String country, long code, float temperatureLimit) {
+    public Location(String name, String country, long code, float temperatureLimit) {
         super();
         this.name = name;
         this.country = country;

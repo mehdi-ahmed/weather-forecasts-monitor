@@ -2,6 +2,8 @@ package com.cloudator.interview.domain;
 
 public class Temperature {
 
+    private long id;
+    private String cityName;
     private double temp;
     private double pressure;
     private double humidity;
@@ -48,10 +50,28 @@ public class Temperature {
         this.temp_max = temp_max;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
     @Override
     public String toString() {
         return "Temperature{" +
-                "temp=" + temp +
+                "id=" + id +
+                ", cityName='" + cityName + '\'' +
+                ", temp=" + temp +
                 ", pressure=" + pressure +
                 ", humidity=" + humidity +
                 ", temp_min=" + temp_min +
