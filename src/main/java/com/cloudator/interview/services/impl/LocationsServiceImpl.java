@@ -2,10 +2,12 @@ package com.cloudator.interview.services.impl;
 
 import com.cloudator.interview.domain.Location;
 import com.cloudator.interview.exception.LocationNotFoundException;
+import com.cloudator.interview.repository.LocationRepository;
 import com.cloudator.interview.services.LocationService;
 import com.cloudator.interview.util.CsvReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,11 +16,15 @@ import java.util.stream.Collectors;
 import static com.cloudator.interview.util.CsvReaderConst.CITY_SAMPLE_CSV_PATH;
 
 @Service
+@CrossOrigin(origins = "http://localhost:4200")
 public class LocationsServiceImpl implements LocationService {
 
     @Autowired
     private CsvReader csvReader;
     private List<Location> locations;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @Override
     public List<Location> getAllLocations() throws IOException {
@@ -58,5 +64,9 @@ public class LocationsServiceImpl implements LocationService {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public Location findByName(String name) {
+        return locationRepository.findByName(name);
     }
 }

@@ -19,14 +19,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.web.context.WebApplicationContext;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,12 +37,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TemperatureResourceITest {
 
     @Autowired
+    @Resource
+    private TemperatureRepository temperatureRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private LocationsServiceImpl locationsService;
+
     @Autowired
-    private TemperatureRepository temperatureRepository;
+    private WebApplicationContext webApplicationContext;
+
 
     @MockBean
     private TemperatureServiceImpl temperatureService;
@@ -59,10 +68,10 @@ public class TemperatureResourceITest {
             throws Exception {
 
         mockMvc.perform(get("/temperature/bulk")
-                .contentType(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(content()
-                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("[0].id").value("123"));
 
 
         //Check data from DB
@@ -82,11 +91,14 @@ public class TemperatureResourceITest {
         Mockito.when(temperatureService.getTemperatureByCityCode(Mockito.anyInt())).thenReturn(mockTemperature);
 
         RequestBuilder requestBuilder = get("/temperature/Helsinki").accept(
-                MediaType.APPLICATION_JSON);
+                APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         JSONAssert.assertEquals(expectedTemperatureJson, result.getResponse().getContentAsString(), false);
+
+        verify(temperatureService, times(1)).getTemperatureByCityCode(Mockito.anyInt());
+        verifyNoMoreInteractions(temperatureService);
     }
 
     private Temperature createTestTemperature() {
@@ -94,6 +106,46 @@ public class TemperatureResourceITest {
         return new Temperature(12345, "cityMock", 12.0f, 13.0f, 1014
                 , 93f, 6.0f, 8.0f, localDateTime, true);
     }
+
+
+    /*
+    *  @Test
+    public void givenEmployees_whenGetEmployees_thenReturnJsonArray()
+            throws Exception {
+
+     *//*  Employee alex = new Employee("alex");
+
+        List<Employee> allEmployees = Arrays.asList(alex);*//*
+
+        given(locationRepository.findByName("Helsinki"))
+                .willReturn(new Location("Helsinki", "FI", 658225, -1));
+
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.get("/locations/listdata");
+
+        this.mvc.perform(builder)
+                .andExpect(MockMvcResultMatchers.status()
+                        .isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+
+    }*/
+
+
+    /*  @Test
+    @ExpectedDatabase("toDoData.xml")
+    public void findByIdWhenTodoIsNotFound() throws Exception {
+        mockMvc.perform(get("/api/todo/{id}", 3L))
+                .andExpect(status().isNotFound());
+    }
+*/
+
+    /* this.mvc.perform(get("/locations/listdata").contentType(MediaType.APPLICATION_JSON));*/
+               /* .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(content().string("[{\"vin\":\"ABC\",\"make\":\"Honda\",\"model\":\"Accord\",\"year\":2010,\"mileage\":100000,\"color\":\"Red\",\"trim\":\"Ex-V6\",\"type\":null,\"maintenanceTasksList\":[\"Oil Change\",\"Tire Rotation\"],\"_links\":{\"self\":{\"href\":\"http://localhost/car?VIN=ABC\"}}}]")
+                );*/
 
 
 }

@@ -1,6 +1,5 @@
-package com.cloudator.interview;
+package com.cloudator.interview.util;
 
-import com.cloudator.interview.util.UrlUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;

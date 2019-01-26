@@ -1,7 +1,6 @@
-package com.cloudator.interview;
+package com.cloudator.interview.util;
 
 import com.cloudator.interview.domain.Location;
-import com.cloudator.interview.util.CsvReader;
 import org.junit.Test;
 
 import java.io.IOException;
