@@ -107,4 +107,8 @@ public class TemperatureServiceImpl implements TemperatureService {
     public List<Temperature> getAllLocationsWithExceedingTemperatures() {
         return temperatureRepository.findAll();
     }
+
+    public Temperature findByName(String name) {
+        return temperatureRepository.findByCityName(name);
+    }
 }

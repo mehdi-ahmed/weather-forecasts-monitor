@@ -53,8 +53,6 @@ public class LocationsServiceImpl implements LocationService {
         String locationIds = getLocations()
                 .stream().map(location -> String.valueOf(location.getCode()))
                 .collect(Collectors.joining(","));
-
-
         return locationIds;
     }
 

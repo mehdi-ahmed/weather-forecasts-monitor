@@ -12,4 +12,6 @@ public interface TemperatureService {
     List<Temperature> getTemperatureForBulkCities(String citiesId) throws IOException;
 
     void saveLocationsWithExceedingTemperatures(Temperature temperature);
+
+    Temperature findByName(String name);
 }

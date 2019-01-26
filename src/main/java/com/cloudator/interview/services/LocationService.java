@@ -12,4 +12,6 @@ public interface LocationService {
     Integer getLocationCode(String locationName) throws IOException;
 
     String concatLocationsId();
+
+    Location findByName(String name);
 }

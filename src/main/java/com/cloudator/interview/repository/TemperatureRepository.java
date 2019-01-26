@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TemperatureRepository extends MongoRepository<Temperature, Integer> {
+
+    Temperature findByCityName(String name);
 }

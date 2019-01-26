@@ -46,10 +46,7 @@ public class TemperatureResource {
     }
 
     @Async
-    //@Scheduled(fixedDelayString = "${rates.refresh}", initialDelay = 1000 * 10)
-    //@Scheduled(cron = "${cron.expression}", zone = "Europe/Helsinki")
     @Scheduled(cron = "${cron.expression}", zone = "Europe/Helsinki")
-    // @Scheduled(cron = "1 * * * * *", zone="Europe/Helsinki")
     @GetMapping(value = "/bulk/exceeds", produces = MediaType.APPLICATION_JSON_VALUE)
     public void saveExceedingTemperatures() throws IOException {
 

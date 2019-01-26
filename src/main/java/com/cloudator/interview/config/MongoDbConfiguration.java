@@ -15,9 +15,6 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;
 
-   /* @Value("${spring.data.mongodb.database}")
-    private String mongoDB;*/
-
     @Override
     public MongoClient mongoClient() {
         return new MongoClient("127.0.0.1", 27017);
