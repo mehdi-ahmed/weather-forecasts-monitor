@@ -1,6 +1,7 @@
 package com.cloudator.interview.services.impl;
 
 import com.cloudator.interview.domain.Location;
+import com.cloudator.interview.exception.LocationNotFoundException;
 import com.cloudator.interview.services.LocationService;
 import com.cloudator.interview.util.CsvReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cloudator.interview.util.CsvReaderConst.CITY_SAMPLE_CSV_PATH;
-import static com.cloudator.interview.util.CsvReaderConst.CSV_HEADER;
 
 @Service
 public class LocationsServiceImpl implements LocationService {
@@ -22,17 +22,21 @@ public class LocationsServiceImpl implements LocationService {
 
     @Override
     public List<Location> getAllLocations() throws IOException {
-        return csvReader.readCsv(CITY_SAMPLE_CSV_PATH, CSV_HEADER);
+        return csvReader.readCsv(CITY_SAMPLE_CSV_PATH);
     }
 
     @Override
-    public long getLocationCode(String cityName) {
+    public Integer getLocationCode(String cityName) {
 
         Location locationFound = getLocations()
                 .stream()
                 .filter(city -> cityName.equalsIgnoreCase(city.getName()))
                 .findFirst()
                 .orElse(null);
+
+        if (locationFound == null) {
+            throw new LocationNotFoundException(String.format("Location %s not found", cityName));
+        }
 
         return locationFound.getCode();
     }

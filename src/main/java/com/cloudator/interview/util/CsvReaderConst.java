@@ -6,11 +6,11 @@ public class CsvReaderConst {
     public static final String CITY_SAMPLE_CSV_PATH = "./src/main/resources/cities-sample.csv";
 
     //File Header
-    static final String CITY = "city";
+    static final String NAME = "name";
     static final String COUNTRY = "country";
     static final String CODE = "code";
     static final String LIMIT = "limit";
 
-    public static final String[] CSV_HEADER = {CITY, COUNTRY, CODE, LIMIT};
+    public static final String[] CSV_HEADER = {NAME, COUNTRY, CODE, LIMIT};
 
 }

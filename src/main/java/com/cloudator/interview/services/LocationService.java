@@ -9,7 +9,7 @@ public interface LocationService {
 
     List<Location> getAllLocations() throws IOException;
 
-    long getLocationCode(String locationName) throws IOException;
+    Integer getLocationCode(String locationName) throws IOException;
 
     String concatLocationsId();
 }

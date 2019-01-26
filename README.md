@@ -45,3 +45,25 @@ updated no more than one time every 10 minutes.
  The method should not accept any arguments.
  
  
+Java 7’s Try-With-Resource Statement
+Another option is the try-with-resource statement which I explained in more detail in my introduction to Java exception handling.
+
+You can use it if your resource implements the AutoCloseable interface.
+ That’s what most Java standard resources do. When you open the resource in the try clause, 
+it will get automatically closed after the try block got executed, or an exception handled.
+
+
+cron
+Let’s understand the cron expression; it consists of six fields:
+
+1
+<second> <minute> <hour> <day-of-month> <month> <day-of-week> <year> <command>
+0         0/11
+
+every 10 sec  = "*/10 * * * * *"
+
+
+
+* * */3 * *  that says, every minute of every hour on every three days. 
+
+0 0 */3 * *  says at 00:00 (midnight) every three days.

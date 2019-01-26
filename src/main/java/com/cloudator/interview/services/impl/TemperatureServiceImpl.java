@@ -1,6 +1,7 @@
 package com.cloudator.interview.services.impl;
 
 import com.cloudator.interview.domain.Temperature;
+import com.cloudator.interview.repository.TemperatureRepository;
 import com.cloudator.interview.services.WeatherForecastsService;
 import com.cloudator.interview.util.JsonUtil;
 import com.cloudator.interview.util.UrlUtil;
@@ -8,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -23,24 +25,31 @@ import static com.cloudator.interview.util.UrlUtil.*;
 
 
 @Service
-public class WeatherForecastsServiceImpl implements WeatherForecastsService {
+public class TemperatureServiceImpl implements WeatherForecastsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WeatherForecastsService.class);
 
     private final RestTemplate restTemplate;
 
+    @Autowired
+    private LocationsServiceImpl locationsService;
+
+    @Autowired
+    private TemperatureRepository temperatureRepository;
+
     @Value("${endpoint.url}")
     private String ENDPOINT_URL;
+
     @Value("${api.key}")
     private String API_KEY;
 
-    public WeatherForecastsServiceImpl(RestTemplateBuilder restTemplateBuilder) {
+    public TemperatureServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public Temperature getTemperatureByCity(String cityStringId) throws IOException {
+    public Temperature getTemperatureByCityCode(Integer cityStringId) throws IOException {
 
-        String url = UrlUtil.buildUrl(ENDPOINT_URL, API_KEY, cityStringId, WEATHER);
+        String url = UrlUtil.buildUrl(ENDPOINT_URL, API_KEY, String.valueOf(cityStringId), WEATHER);
 
         LOGGER.info(url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -50,7 +59,10 @@ public class WeatherForecastsServiceImpl implements WeatherForecastsService {
         }
 
         JSONObject jsonObject = new JSONObject(Objects.requireNonNull(response.getBody()));
-        return JsonUtil.buildObjectFromJson(jsonObject);
+        Temperature temperature = JsonUtil.buildObjectFromJson(jsonObject);
+
+        setTemperatureLimit(temperature);
+        return temperature;
     }
 
     @Override
@@ -70,11 +82,27 @@ public class WeatherForecastsServiceImpl implements WeatherForecastsService {
 
         List<Temperature> temperatures = new ArrayList<>();
         for (int i = 0; i < arrayLocationsJson.length(); i++) {
-            temperatures.add(JsonUtil.buildObjectFromJson(arrayLocationsJson.getJSONObject(i)));
+            Temperature temperature = JsonUtil.buildObjectFromJson(arrayLocationsJson.getJSONObject(i));
+            setTemperatureLimit(temperature);
+            temperatures.add(temperature);
         }
-
         return temperatures;
     }
 
+    private void setTemperatureLimit(Temperature temperature) {
+        locationsService.getLocations().stream()
+                .filter(location -> location.getCode().equals(temperature.getId()))
+                .peek(location -> temperature.setTempLimit(location.getLimit()))
+                .peek(location -> temperature.setExceeds(location.getLimit() > temperature.getTemp()))
+                .findAny()
+                .orElse(null);
+    }
 
+    public void saveLocationsWithExceedingTemperatures(Temperature temperature) {
+        temperatureRepository.save(temperature);
+    }
+
+    public List<Temperature> getAllLocationsWithExceedingTemperatures() {
+        return temperatureRepository.findAll();
+    }
 }

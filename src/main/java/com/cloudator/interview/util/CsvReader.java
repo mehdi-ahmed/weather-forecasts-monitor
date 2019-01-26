@@ -22,23 +22,25 @@ public class CsvReader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CsvReader.class);
 
-    public List<Location> readCsv(String filePath, String[] header) throws IOException {
+    public List<Location> readCsv(String filePath) throws IOException {
 
         LOGGER.info("Reading locations from CSV File...");
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(filePath));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
-                        .withDelimiter('\t')
-                        .withHeader(header)
-                        .withIgnoreHeaderCase()
+                        .withDelimiter(',')
+                        .withHeader(CSV_HEADER)
+                        .withIgnoreEmptyLines()
+                        .withIgnoreSurroundingSpaces()
+                        .withSkipHeaderRecord()
                         .withFirstRecordAsHeader())
         ) {
             List<Location> locations = new ArrayList<>();
 
             for (CSVRecord csvRecord : csvParser) {
-                Location city = new Location(csvRecord.get(CITY)
+                Location city = new Location(csvRecord.get(NAME)
                         , csvRecord.get(COUNTRY)
-                        , Long.valueOf(csvRecord.get(CODE))
+                        , Integer.valueOf(csvRecord.get(CODE))
                         , Float.valueOf(csvRecord.get(LIMIT)));
 
                 locations.add(city);

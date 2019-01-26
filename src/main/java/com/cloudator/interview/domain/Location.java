@@ -4,15 +4,16 @@ public class Location {
 
     private String name;
     private String country;
-    private long code;
-    private float temperatureLimit;
+    private Integer code;
+    //Temperature limit
+    private float limit;
 
-    public Location(String name, String country, long code, float temperatureLimit) {
+    public Location(String name, String country, Integer code, float limit) {
         super();
         this.name = name;
         this.country = country;
         this.code = code;
-        this.temperatureLimit = temperatureLimit;
+        this.limit = limit;
     }
 
     public String getName() {
@@ -31,20 +32,20 @@ public class Location {
         this.country = country;
     }
 
-    public long getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(long code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
-    public float getTemperatureLimit() {
-        return temperatureLimit;
+    public float getLimit() {
+        return limit;
     }
 
-    public void setTemperatureLimit(float temperatureLimit) {
-        this.temperatureLimit = temperatureLimit;
+    public void setLimit(float limit) {
+        this.limit = limit;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class Location {
                 "name='" + name + '\'' +
                 ", country='" + country + '\'' +
                 ", code=" + code +
-                ", temperatureLimit=" + temperatureLimit +
+                ", temperatureLimit=" + limit +
                 '}';
     }
 

@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface WeatherForecastsService {
 
-    Temperature getTemperatureByCity(String cityId) throws IOException;
+    Temperature getTemperatureByCityCode(Integer cityId) throws IOException;
 
     List<Temperature> getTemperatureForBulkCities(String citiesId) throws IOException;
+
+    void saveLocationsWithExceedingTemperatures(Temperature temperature);
 }
