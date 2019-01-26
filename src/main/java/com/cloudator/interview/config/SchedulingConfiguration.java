@@ -10,6 +10,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @EnableScheduling
 public class SchedulingConfiguration implements SchedulingConfigurer {
 
+    //TODO FIX CONFIG POLLING
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
 

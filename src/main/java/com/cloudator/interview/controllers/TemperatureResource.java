@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TemperatureResource {
 
 
     @GetMapping(value = "/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Temperature getTemperatureByCity(@PathVariable("city") String cityName) throws IOException {
+    public Temperature getTemperatureByCity(@PathVariable("city") String cityName) throws IOException, URISyntaxException {
 
         LOGGER.info(String.format("Looking for temperature for city '%s'...", cityName));
         return temperatureService.getTemperatureByCityCode(locationsService.getLocationCode(cityName));
@@ -41,14 +42,14 @@ public class TemperatureResource {
 
 
     @GetMapping(value = "/bulk", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Temperature> getBulkTemperatures() throws IOException {
+    public List<Temperature> getBulkTemperatures() throws IOException, URISyntaxException {
         return temperatureService.getTemperatureForBulkCities(locationsService.concatLocationsId());
     }
 
     @Async
     @Scheduled(cron = "${cron.expression}", zone = "Europe/Helsinki")
     @GetMapping(value = "/bulk/exceeds", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void saveExceedingTemperatures() throws IOException {
+    public void saveExceedingTemperatures() throws IOException, URISyntaxException {
 
         LOGGER.info("Looking for temperatures for all cities listed in CSV :: Execution Time - {}"
                 , dateTimeFormatter.format(LocalDateTime.now()));

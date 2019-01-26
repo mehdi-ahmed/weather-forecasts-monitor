@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,25 +69,31 @@ public class TemperatureServiceImpl implements TemperatureService {
     }
 
     @Override
-    public List<Temperature> getTemperatureForBulkCities(String citiesStringIds) throws IOException {
+    public List<Temperature> getTemperatureForBulkCities(String citiesStringIds) throws IOException, URISyntaxException {
+
+        List<Temperature> temperatures;
         String url = UrlUtil.buildUrl(ENDPOINT_URL, API_KEY, citiesStringIds, GROUP);
 
-        LOGGER.info(url);
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        if (!isWeatherApiAvailable(ENDPOINT_URL)) {
+            LOGGER.info("Weather API is unavailable - Switching to stored data");
+            temperatures = temperatureRepository.findAll();
 
-        if (Objects.requireNonNull(response.getBody()).isEmpty()) {
-            throw new RuntimeException("Empty response ! ");
-        }
+        } else {
+            LOGGER.info(url);
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            if (Objects.requireNonNull(response.getBody()).isEmpty()) {
+                throw new RuntimeException("Empty response ! ");
+            }
 
+            JSONObject jsonObject = new JSONObject(Objects.requireNonNull(response.getBody()));
+            JSONArray arrayLocationsJson = jsonObject.getJSONArray(LIST);
 
-        JSONObject jsonObject = new JSONObject(Objects.requireNonNull(response.getBody()));
-        JSONArray arrayLocationsJson = jsonObject.getJSONArray(LIST);
-
-        List<Temperature> temperatures = new ArrayList<>();
-        for (int i = 0; i < arrayLocationsJson.length(); i++) {
-            Temperature temperature = JsonUtil.buildObjectFromJson(arrayLocationsJson.getJSONObject(i));
-            setTemperatureLimit(temperature);
-            temperatures.add(temperature);
+            temperatures = new ArrayList<>();
+            for (int i = 0; i < arrayLocationsJson.length(); i++) {
+                Temperature temperature = JsonUtil.buildObjectFromJson(arrayLocationsJson.getJSONObject(i));
+                setTemperatureLimit(temperature);
+                temperatures.add(temperature);
+            }
         }
         return temperatures;
     }

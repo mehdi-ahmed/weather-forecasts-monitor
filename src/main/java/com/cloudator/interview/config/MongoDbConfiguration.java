@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @EnableMongoRepositories(basePackageClasses = TemperatureRepository.class)
 public class MongoDbConfiguration extends AbstractMongoConfiguration {
+    //TODO FIX CONFIG
 
     @Autowired
     private Environment env;
