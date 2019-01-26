@@ -20,6 +20,25 @@ public class Temperature {
     private LocalDateTime measureTime;
     private boolean exceeds;
 
+    public Temperature(Integer id, String cityName, float temp, float tempLimit, float pressure, float humidity
+            , float temp_min, float temp_max, LocalDateTime measureTime, boolean exceeds) {
+        super();
+        this.id = id;
+        this.cityName = cityName;
+        this.temp = temp;
+        this.tempLimit = tempLimit;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.temp_min = temp_min;
+        this.temp_max = temp_max;
+        this.measureTime = measureTime;
+        this.exceeds = exceeds;
+    }
+
+    public Temperature() {
+        super();
+    }
+
     public Integer getId() {
         return id;
     }

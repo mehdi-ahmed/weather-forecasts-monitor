@@ -2,7 +2,7 @@ package com.cloudator.interview.services.impl;
 
 import com.cloudator.interview.domain.Temperature;
 import com.cloudator.interview.repository.TemperatureRepository;
-import com.cloudator.interview.services.WeatherForecastsService;
+import com.cloudator.interview.services.TemperatureService;
 import com.cloudator.interview.util.JsonUtil;
 import com.cloudator.interview.util.UrlUtil;
 import org.json.JSONArray;
@@ -25,9 +25,9 @@ import static com.cloudator.interview.util.UrlUtil.*;
 
 
 @Service
-public class TemperatureServiceImpl implements WeatherForecastsService {
+public class TemperatureServiceImpl implements TemperatureService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeatherForecastsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureService.class);
 
     private final RestTemplate restTemplate;
 

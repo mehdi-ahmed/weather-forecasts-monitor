@@ -2,4 +2,4 @@ name      ,country,code  ,limit
 Helsinki  ,FI     ,658225,-1
 dummyCity1,XX     ,123456,-1
 dummyCity3,YY     ,999999,-1
-dummyCity3,ZZ     ,000000,10
+dummyCity3,ZZ     ,777777,10

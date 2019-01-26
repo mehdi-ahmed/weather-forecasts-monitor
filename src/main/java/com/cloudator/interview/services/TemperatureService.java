@@ -5,7 +5,7 @@ import com.cloudator.interview.domain.Temperature;
 import java.io.IOException;
 import java.util.List;
 
-public interface WeatherForecastsService {
+public interface TemperatureService {
 
     Temperature getTemperatureByCityCode(Integer cityId) throws IOException;
 
