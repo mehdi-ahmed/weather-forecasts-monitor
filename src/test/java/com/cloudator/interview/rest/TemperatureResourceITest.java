@@ -1,6 +1,7 @@
 package com.cloudator.interview.rest;
 
 import com.cloudator.interview.domain.Temperature;
+import com.cloudator.interview.repository.TemperatureRepository;
 import com.cloudator.interview.services.impl.TemperatureServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,9 @@ public class TemperatureResourceITest {
 
     @MockBean
     private TemperatureServiceImpl temperatureService;
+
+    @MockBean
+    private TemperatureRepository temperatureRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -76,7 +80,13 @@ public class TemperatureResourceITest {
     private Temperature createTestTemperature() {
 
         return new Temperature(12345, "cityMock", 12.0f, 13.0f, 1014
-                , 93f, 6.0f, 8.0f, localDateTime, true);
+                , 93f, 6.0f, 8.0f, localDateTime, true, 500.0f, 1000.0f);
+    }
+
+    @Test
+    public void given_InternetProblens_whenAPIServiceIsCalled_SwitchToDatabase() {
+        verify(temperatureRepository, times(1)).findByCityName(Mockito.anyString());
+        verifyNoMoreInteractions(temperatureService);
     }
 
 

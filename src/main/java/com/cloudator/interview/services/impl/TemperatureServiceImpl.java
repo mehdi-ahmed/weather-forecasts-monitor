@@ -69,13 +69,13 @@ public class TemperatureServiceImpl implements TemperatureService {
     }
 
     @Override
-    public List<Temperature> getTemperatureForBulkCities(String citiesStringIds) throws IOException, URISyntaxException {
+    public List<Temperature> getBulkTemperatures(String citiesStringIds) throws IOException, URISyntaxException {
 
         List<Temperature> temperatures;
         String url = UrlUtil.buildUrl(ENDPOINT_URL, API_KEY, citiesStringIds, GROUP);
 
         if (!isWeatherApiAvailable(ENDPOINT_URL)) {
-            LOGGER.info("Weather API is unavailable - Switching to stored data");
+            LOGGER.info(" !!Weather API is unavailable - Switching to stored data!!");
             temperatures = temperatureRepository.findAll();
 
         } else {

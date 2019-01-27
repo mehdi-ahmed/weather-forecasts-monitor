@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,28 +33,26 @@ public class TemperatureResource {
 
 
     @GetMapping(value = "/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Temperature getTemperatureByCity(@PathVariable("city") String cityName) throws IOException, URISyntaxException {
+    public Temperature getTemperatureByCity(@PathVariable("city") String cityName) throws IOException {
 
         LOGGER.info(String.format("Looking for temperature for city '%s'...", cityName));
         return temperatureService.getTemperatureByCityCode(locationsService.getLocationCode(cityName));
     }
 
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Temperature> getAllTemperatures() throws IOException, URISyntaxException {
 
-    @GetMapping(value = "/bulk", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Temperature> getBulkTemperatures() throws IOException, URISyntaxException {
-        return temperatureService.getTemperatureForBulkCities(locationsService.concatLocationsId());
+        LOGGER.info("Looking for all temperatures from the Weather API :: Execution Time");
+        return temperatureService.getBulkTemperatures(locationsService.concatLocationsId());
     }
 
-    @Async
     @Scheduled(cron = "${cron.expression}", zone = "Europe/Helsinki")
-    @GetMapping(value = "/bulk/exceeds", produces = MediaType.APPLICATION_JSON_VALUE)
     public void saveExceedingTemperatures() throws IOException, URISyntaxException {
 
-        LOGGER.info("Looking for temperatures for all cities listed in CSV :: Execution Time - {}"
-                , dateTimeFormatter.format(LocalDateTime.now()));
+        LOGGER.info("Saving locations with exceeding temperatures:: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 
         List<Temperature> bulkCitiesTemperatures =
-                temperatureService.getTemperatureForBulkCities(locationsService.concatLocationsId());
+                temperatureService.getBulkTemperatures(locationsService.concatLocationsId());
 
         // store the exceeding values
         for (Temperature temperature : bulkCitiesTemperatures) {
@@ -64,11 +61,4 @@ public class TemperatureResource {
             }
         }
     }
-
-    @GetMapping(value = "/bulk/exceeds/stored", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Temperature> findAllExceedingTemperatureFromDB() {
-        return temperatureService.getAllLocationsWithExceedingTemperatures();
-    }
-
-
 }

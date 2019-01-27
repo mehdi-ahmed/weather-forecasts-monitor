@@ -1,15 +1,11 @@
 package com.cloudator.interview.util;
 
 import com.squareup.okhttp.HttpUrl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.*;
 
 public class UrlUtil {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UrlUtil.class);
 
     public static final String WEATHER = "weather";
     public static final String GROUP = "group";
@@ -39,7 +35,6 @@ public class UrlUtil {
         urlBuilder.addQueryParameter(UNITS, METRIC);
         return urlBuilder.build().toString();
     }
-
 
     public static boolean isWeatherApiAvailable(String apiHost) throws IOException, URISyntaxException {
 

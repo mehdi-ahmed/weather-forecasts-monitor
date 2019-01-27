@@ -10,7 +10,7 @@ public interface TemperatureService {
 
     Temperature getTemperatureByCityCode(Integer cityId) throws IOException, URISyntaxException;
 
-    List<Temperature> getTemperatureForBulkCities(String citiesId) throws IOException, URISyntaxException;
+    List<Temperature> getBulkTemperatures(String citiesId) throws IOException, URISyntaxException;
 
     void saveLocationsWithExceedingTemperatures(Temperature temperature);
 

@@ -17,9 +17,9 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/locations")
-public class LocationResources {
+public class LocationResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocationResources.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocationResource.class);
 
     @Autowired
     private LocationsServiceImpl locationsService;

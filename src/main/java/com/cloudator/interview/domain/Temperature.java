@@ -19,9 +19,11 @@ public class Temperature {
     private float temp_max;
     private LocalDateTime measureTime;
     private boolean exceeds;
+    private float grnd_level;
+    private float sea_level;
 
     public Temperature(Integer id, String cityName, float temp, float tempLimit, float pressure, float humidity
-            , float temp_min, float temp_max, LocalDateTime measureTime, boolean exceeds) {
+            , float temp_min, float temp_max, LocalDateTime measureTime, boolean exceeds, float grnd_level, float sea_level) {
         super();
         this.id = id;
         this.cityName = cityName;
@@ -33,6 +35,24 @@ public class Temperature {
         this.temp_max = temp_max;
         this.measureTime = measureTime;
         this.exceeds = exceeds;
+        this.grnd_level = grnd_level;
+        this.sea_level = sea_level;
+    }
+
+    public float getSea_level() {
+        return sea_level;
+    }
+
+    public void setSea_level(float sea_level) {
+        this.sea_level = sea_level;
+    }
+
+    public float getGrnd_level() {
+        return grnd_level;
+    }
+
+    public void setGrnd_level(float grnd_level) {
+        this.grnd_level = grnd_level;
     }
 
     public Temperature() {
