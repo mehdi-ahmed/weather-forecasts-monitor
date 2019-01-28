@@ -1,5 +1,9 @@
 package com.cloudator.interview.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Forecast {
 
     private int code;
@@ -8,6 +12,21 @@ public class Forecast {
     private String limit;
     private String date;
     private boolean isExceed;
+
+    public Forecast(int code, String city, String temperature, String limit, String date, boolean isExceed) {
+        super();
+        this.code = code;
+        this.city = city;
+        this.temperature = temperature;
+        this.limit = limit;
+        this.date = date;
+        this.isExceed = isExceed;
+    }
+
+
+    public Forecast() {
+        super();
+    }
 
     public boolean isExceed() {
         return isExceed;

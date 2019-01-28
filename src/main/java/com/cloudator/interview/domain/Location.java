@@ -2,9 +2,9 @@ package com.cloudator.interview.domain;
 
 public class Location {
 
+    private Integer code;
     private String name;
     private String country;
-    private Integer code;
     private float limit;
 
     public Location(String name, String country, Integer code, float limit) {

@@ -30,7 +30,7 @@ public class LocationResourceITest {
             throws Exception {
 
         MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.get("/locations/listdata").contentType(MediaType.APPLICATION_JSON);
+                MockMvcRequestBuilders.get("/locations").contentType(MediaType.APPLICATION_JSON);
 
         this.mvc.perform(builder).andExpect(MockMvcResultMatchers.status()
                 .isOk())
@@ -45,6 +45,17 @@ public class LocationResourceITest {
                 .andExpect(jsonPath("$[1].limit").value("-1.0"))
 
                 // Check the whole Json
-                .andExpect(content().string("[{\"name\":\"London\",\"country\":\"GB\",\"code\":2643743,\"limit\":-1.0},{\"name\":\"Helsinki\",\"country\":\"FI\",\"code\":658225,\"limit\":-1.0},{\"name\":\"Brussels\",\"country\":\"BE\",\"code\":2800866,\"limit\":10.0},{\"name\":\"Oslo\",\"country\":\"NO\",\"code\":6453366,\"limit\":5.0},{\"name\":\"Paris\",\"country\":\"FR\",\"code\":2988507,\"limit\":8.0},{\"name\":\"Tunis\",\"country\":\"TN\",\"code\":2464470,\"limit\":15.0},{\"name\":\"Moscow\",\"country\":\"RU\",\"code\":524901,\"limit\":-5.0},{\"name\":\"Montreal\",\"country\":\"RU\",\"code\":6077243,\"limit\":0.0}]"));
+                .andExpect(content().string("[{\"code\":2643743,\"name\":\"London\",\"country\":\"GB\",\"limit\":-1.0},{\"code\":658225,\"name\":\"Helsinki\",\"country\":\"FI\",\"limit\":-1.0},{\"code\":2800866,\"name\":\"Brussels\",\"country\":\"BE\",\"limit\":10.0},{\"code\":6453366,\"name\":\"Oslo\",\"country\":\"NO\",\"limit\":5.0},{\"code\":2988507,\"name\":\"Paris\",\"country\":\"FR\",\"limit\":0.0},{\"code\":2464470,\"name\":\"Tunis\",\"country\":\"TN\",\"limit\":15.0},{\"code\":524901,\"name\":\"Moscow\",\"country\":\"RU\",\"limit\":-5.0},{\"code\":6077243,\"name\":\"Montreal\",\"country\":\"RU\",\"limit\":0.0}]"));
+    }
+
+
+    @Test
+    public void whenURLIsFak_Return404ServerError() throws Exception {
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.get("locations/listdata").contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(builder).andExpect(MockMvcResultMatchers.status()
+                .is4xxClientError());
     }
 }

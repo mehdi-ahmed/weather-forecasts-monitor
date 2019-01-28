@@ -1,7 +1,7 @@
 package com.cloudator.interview.db;
 
-import com.cloudator.interview.domain.Temperature;
-import com.cloudator.interview.repository.TemperatureRepository;
+import com.cloudator.interview.domain.Forecast;
+import com.cloudator.interview.repository.ForecastRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +18,26 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class MongoDbSpringIntegrationTest {
 
     @Autowired
-    private TemperatureRepository temperatureRepository;
+    private ForecastRepository forecastRepository;
 
     @Test
-    public void whenFindAllTemperaturesFromDBThatExceedsLinit_Expect_ListWithValidData() {
+    public void whenFindAllTemperaturesFromDBThatExceedsLimit_Expect_ListWithValidData() {
 
         //Check data from DB
-        List<Temperature> found = temperatureRepository.findAll();
-        assertThat(found).extracting(Temperature::getCityName)
+        List<Forecast> foundCities = forecastRepository.findAll();
+        assertThat(foundCities).extracting(Forecast::getCity)
                 .contains("Helsinki")
                 .contains("Paris")
                 .contains("Oslo")
                 .contains("Tunis")
                 .contains("Moscow")
                 .contains("Moscow");
-    }
 
-    @Test
-    public void givenACityName_Expect_findTemperaturesThatExceedsFromDB_ByCityName() {
+        //All values in DB should be Exceeding = true
+        for (Forecast foundCity : foundCities) {
+            assertThat(foundCity.isExceed() == true);
+        }
 
-        Temperature helsinkiExceeds = temperatureRepository.findByCityName("Helsinki");
-        assertThat(helsinkiExceeds.isExceeds() == true);
-        assertThat(helsinkiExceeds.getId() == 658225);
     }
 
 }
