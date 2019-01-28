@@ -5,7 +5,6 @@ public class Location {
     private String name;
     private String country;
     private Integer code;
-    //Temperature limit
     private float limit;
 
     public Location(String name, String country, Integer code, float limit) {

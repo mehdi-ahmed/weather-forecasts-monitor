@@ -65,6 +65,11 @@ public class LocationsServiceImpl implements LocationService {
     }
 
     public Location findByName(String name) {
-        return locationRepository.findByName(name);
+        return locations.stream()
+                .filter(city -> city.getName().equalsIgnoreCase(name))
+                .findAny()
+                .orElse(null);
+
+
     }
 }

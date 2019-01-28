@@ -24,7 +24,7 @@ public class LocationResource {
     @Autowired
     private LocationsServiceImpl locationsService;
 
-    @RequestMapping(value = "/listdata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<Location>> getAllLocations() throws IOException {
         LOGGER.info("Retrieving all locations from file...");

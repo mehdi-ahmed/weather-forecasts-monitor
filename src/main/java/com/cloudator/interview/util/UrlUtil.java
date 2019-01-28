@@ -1,13 +1,20 @@
 package com.cloudator.interview.util;
 
 import com.squareup.okhttp.HttpUrl;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.net.*;
 
 public class UrlUtil {
 
+    public static final String FORECAST = "forecast";
+    @Value("${endpoint.url}")
+    private static String ENDPOINT_URL;
+
     public static final String WEATHER = "weather";
+    @Value("${api.key}")
+    private static String API_KEY;
     public static final String GROUP = "group";
     public static final String LIST = "list";
     private static final String ID = "id";
@@ -24,11 +31,11 @@ public class UrlUtil {
      * @return URL String
      */
 
-    public static String buildUrl(String url, String apiKey, String cityString, String PathSegment) {
+    public static String buildUrl(String url, String apiKey, Integer locationId, String PathSegment) {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
         urlBuilder.addPathSegment(PathSegment);
-        urlBuilder.addQueryParameter(ID, String.valueOf(cityString));
+        urlBuilder.addQueryParameter(ID, String.valueOf(locationId));
         urlBuilder.addQueryParameter(APP_ID, apiKey);
 
         //Get temperatures in Celsius

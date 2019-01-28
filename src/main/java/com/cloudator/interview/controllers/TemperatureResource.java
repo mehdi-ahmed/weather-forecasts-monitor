@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -32,12 +35,12 @@ public class TemperatureResource {
     private LocationsServiceImpl locationsService;
 
 
-    @GetMapping(value = "/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@GetMapping(value = "/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Temperature getTemperatureByCity(@PathVariable("city") String cityName) throws IOException {
 
         LOGGER.info(String.format("Looking for temperature for city '%s'...", cityName));
         return temperatureService.getTemperatureByCityCode(locationsService.getLocationCode(cityName));
-    }
+    }*/
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Temperature> getAllTemperatures() throws IOException, URISyntaxException {
