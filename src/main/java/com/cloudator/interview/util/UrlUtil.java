@@ -9,12 +9,14 @@ import java.net.*;
 public class UrlUtil {
 
     public static final String FORECAST = "forecast";
+    public static final String WEATHER = "weather";
+
     @Value("${endpoint.url}")
     private static String ENDPOINT_URL;
 
-    public static final String WEATHER = "weather";
     @Value("${api.key}")
     private static String API_KEY;
+
     public static final String GROUP = "group";
     public static final String LIST = "list";
     private static final String ID = "id";
