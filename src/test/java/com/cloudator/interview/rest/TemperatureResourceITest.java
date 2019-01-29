@@ -87,10 +87,4 @@ public class TemperatureResourceITest {
     }
 
 
-    }
-
-    /*@Test
-    public void given_InternetProblens_whenAPIServiceIsCalled_SwitchToDatabase() {
-        verify(temperatureRepository, times(1)).findByCityName(Mockito.anyString());
-        verifyNoMoreInteractions(temperatureService);
-    }*/
+}
