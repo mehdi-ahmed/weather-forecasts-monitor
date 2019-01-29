@@ -55,7 +55,7 @@ public class ForecastServiceImpl implements ForecastService {
 
         if (!isWeatherApiAvailable(ENDPOINT_URL)) {
             LOGGER.info(" !!Weather API is unavailable - Switching to stored data!!");
-            forecasts = forecastRepository.findAll();
+            forecasts = forecastRepository.findByCity(cityName);
 
         } else {
 
